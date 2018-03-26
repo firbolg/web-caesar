@@ -10,26 +10,26 @@ form ="""
 <html>
     <head>
         <style>
-            form {
+            form {{
                 background-color: #eee;
                 padding: 20px;
                 margin: 0 auto;
                 width: 540px;
                 font: 16px sans-serif;
                 border-radius: 10px;
-            }
-            textarea {
+            }}
+            textarea {{
                 margin: 10px 0;
                 width: 540px;
                 height: 120px;
-            }
+            }}
         </style>
     </head>
     <body>
         <form method='POST'>
             <label for="rot">Rotate by:</label>
-                <input name="rot" type="text" value='{0}' />
-            <textarea name="text">{stuff}</textarea>
+                <input name="rot" type="text" />
+            <textarea name="text">{x}</textarea>
                 <input type="submit"/>
         </form>  
     </body>
@@ -38,7 +38,7 @@ form ="""
 
 @app.route("/")
 def index():
-    return form
+    return form.format(x='')
 
 def is_integer(num):
    try:
@@ -54,13 +54,12 @@ def encrypt():
     rot = request.form['rot']
 
     if not is_integer(rot):
-        cipher = rotate_string(text, 0)
-        return cipher
+        return form.format(x='')
 
     else:
         rot = int(rot)
         cipher = rotate_string(text, rot)
-        return '<h1>{0}</h1>'.format(cipher)
+        return form.format(x=cipher)
 
 
 
